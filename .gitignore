@@ -19,5 +19,5 @@
 #ignore rubymine
 /.idea
 
-# ignore locally compiled assets
+# ignore precompiled assets
 /public/assets
