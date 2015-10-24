@@ -15,4 +15,11 @@ class Organizer < ActiveRecord::Base
       )
     } % [longitude, latitude, distance_in_meters])
   }
+
+  scope :in_box, -> (ne_latitude, ne_longitude, sw_latitude, sw_longitude) {
+    where(%{
+        ST_MakeEnvelope(%f, %f, %f, %f) &&
+        organizers.location
+    } % [sw_longitude, sw_latitude, ne_longitude, ne_latitude])
+  }
 end
