@@ -1,2 +1,23 @@
-<h1>Organizers#new</h1>
-<p>Find me in app/views/organizers/new.html.erb</p>
+<div class="header clearfix" style="text-align:center">
+  <h1 class="text-muted">Saturn Day Ringmasters</h1>
+</div>
+
+<%= simple_form_for @organizer do |f| %>
+    <%= f.input :name, label: 'Your name: ', error: 'Name is mandatory, please fill it in' %>
+    <%= f.input :email, label: 'Your email: ', placeholder: 'user@domain.com' %>
+    <%= f.input :club_name, label: 'If this is part of an astronomical society or club? If so, please list the name' %>
+    <%= f.input :secondary_name, label: 'Do you have a co-organizer? If so please enter their name: ' %>
+    <%= f.input :secondary_name, label: 'Co-organizer email (if applicable): ' %>
+
+    <%= f.input :address, label: 'Address for the Viewing Party: ' %>
+    <%= f.input :city, label: 'City: ' %>
+    <%= f.input :state, label: 'State: ' %>
+    <%= f.input :zipcode, label: 'Zipcode: ' %>
+    <%= f.input :num_scopes, label: 'Number of telescopes > 6 inches: ' %>
+    <%= f.input :max_attendees, label: 'Number of attendees you can accomodate: ' %>
+    <h4>Ringmaster Pledge:</h4>
+    <div>I understand that as a ring master I'm being considered lorem ipsum dolor blah</div>
+    <div>I agree to the Ringmaster Pledge<input type="checkbox" name="pledge" value=""><br></div>
+    <div>I commit to host a viewing party on September 24th, 2016<input type="checkbox" name="commit" value=""><br></div>
+    <%= f.button :submit, value: 'Sign up' %>
+<% end %>
