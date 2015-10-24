@@ -21,6 +21,6 @@ class OrganizersController < ApplicationController
   end
 
   def search
-
+    render json: Organizer.close_to(params[:latitude], params[:longitude], params[:meters])
   end
 end
