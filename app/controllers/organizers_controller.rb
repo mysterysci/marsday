@@ -29,9 +29,12 @@ class OrganizersController < ApplicationController
   def destroy
   end
 
+  def search
+    render json: Organizer.close_to(params[:latitude], params[:longitude], params[:meters])
+  end
+
   private
   def organizer_params
     params.require(:organizer).permit(:name, :email, :club_name, :secondary_name, :secondary_email, :address, :city, :state, :zipcode, :num_scopes, :max_attendees)
   end
-
 end
