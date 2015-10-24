@@ -7,6 +7,8 @@ Rails.application.routes.draw do
 
   get 'organizers/edit'
 
+  get 'organizers/search'
+
   get 'organizers/show'
 
   get 'organizers/update'
