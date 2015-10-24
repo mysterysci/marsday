@@ -1,0 +1,8 @@
+brew upgrade postgresql
+initdb /usr/local/var/postgres9.4 -E utf8
+createdb saturnday
+brew install postgis
+pg_ctl -D /usr/local/var/postgres9.4 -l logfile start
+psql saturnday -c "create extension postgis;"
+createuser --superuser saturnday
+rake db:create
