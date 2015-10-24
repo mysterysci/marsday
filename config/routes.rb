@@ -1,33 +1,5 @@
 Rails.application.routes.draw do
-  get 'organizers/new'
-
-  get 'organizers/index'
-
-  get 'organizers/create'
-
-  get 'organizers/edit'
-
   get 'organizers/search'
-
-  get 'organizers/show'
-
-  get 'organizers/update'
-
-  get 'organizers/destroy'
-
-  get 'attendees/new'
-
-  get 'attendees/index'
-
-  get 'attendees/create'
-
-  get 'attendees/edit'
-
-  get 'attendees/show'
-
-  get 'attendees/update'
-
-  get 'attendees/destroy'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
