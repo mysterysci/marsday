@@ -11,6 +11,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
+# SAASy Bootstrap
 gem 'bootstrap-sass',       '3.2.0.0'
 
 # Use jquery as the JavaScript library
@@ -24,6 +25,10 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
+
+# pretty forms
+gem 'simple_form'
+gem 'country_select'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
