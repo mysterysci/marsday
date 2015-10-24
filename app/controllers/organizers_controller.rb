@@ -19,4 +19,8 @@ class OrganizersController < ApplicationController
 
   def destroy
   end
+
+  def search
+
+  end
 end
