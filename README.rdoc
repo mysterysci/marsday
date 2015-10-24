@@ -29,4 +29,9 @@ organizers
     has_many attendees
 
 
+Controllers
+    attendee
 
+    organizer
+
+    main
