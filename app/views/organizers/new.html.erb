@@ -2,17 +2,103 @@
   <h1 class="text-muted">Saturn Day Ringmasters</h1>
 </div>
 
-<%= simple_form_for @organizer do |f| %>
+<%= simple_form_for @organizer, html: { class: 'form-horizontal' },
+                    wrapper: :horizontal_form,
+                    wrapper_mappings: {
+                            check_boxes: :horizontal_radio_and_checkboxes,
+                            radio_buttons: :horizontal_radio_and_checkboxes,
+                            file: :horizontal_file_input,
+                            boolean: :horizontal_boolean
+                    } do |f| %>
     <%= f.input :name, label: 'Your name: ', error: 'Name is mandatory, please fill it in' %>
     <%= f.input :email, label: 'Your email: ', placeholder: 'user@domain.com' %>
     <%= f.input :club_name, label: 'If this is part of an astronomical society or club? If so, please list the name' %>
     <%= f.input :secondary_name, label: 'Do you have a co-organizer? If so please enter their name: ' %>
     <%= f.input :secondary_name, label: 'Co-organizer email (if applicable): ' %>
+    <%= f.input :address, :as => :hidden  %>
+    <div class="form-group ">
+      <label class="col-sm-3 control-label">Add the address for the viewing party in the box to the right:</label>
+      <div class="col-sm-9">
+        <input id="pac-input" class="controls" type="text" placeholder="Enter your address with city and zipcode">
+        <div id="map" style="height:450px"></div>
+        <script>
+            // This example adds a search box to a map, using the Google Place Autocomplete
+            // feature. People can enter geographical searches. The search box will return a
+            // pick list containing a mix of places and predicted search terms.
 
-    <%= f.input :address, label: 'Address for the Viewing Party: ' %>
-    <%= f.input :city, label: 'City: ' %>
-    <%= f.input :state, label: 'State: ' %>
-    <%= f.input :zipcode, label: 'Zipcode: ' %>
+            function initAutocomplete() {
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    center: {lat: 54.5260, lng: -105.2551},
+                    zoom: 2,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                });
+
+                // Create the search box and link it to the UI element.
+                var input = document.getElementById('pac-input');
+                var searchBox = new google.maps.places.SearchBox(input);
+                map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+                // Bias the SearchBox results towards current map's viewport.
+                map.addListener('bounds_changed', function() {
+                    searchBox.setBounds(map.getBounds());
+                });
+
+                var markers = [];
+                // [START region_getplaces]
+                // Listen for the event fired when the user selects a prediction and retrieve
+                // more details for that place.
+                searchBox.addListener('places_changed', function() {
+                    var places = searchBox.getPlaces();
+
+                    if (places.length == 0) {
+                        return;
+                    }
+
+                    $('#organizer_address').html($('#pac-input').val());
+
+                    // Clear out the old markers.
+                    markers.forEach(function(marker) {
+                        marker.setMap(null);
+                    });
+                    markers = [];
+
+                    // For each place, get the icon, name and location.
+                    var bounds = new google.maps.LatLngBounds();
+                    places.forEach(function(place) {
+                        var icon = {
+                            url: place.icon,
+                            size: new google.maps.Size(71, 71),
+                            origin: new google.maps.Point(0, 0),
+                            anchor: new google.maps.Point(17, 34),
+                            scaledSize: new google.maps.Size(25, 25)
+                        };
+
+                        // Create a marker for each place.
+                        markers.push(new google.maps.Marker({
+                            map: map,
+                            icon: icon,
+                            title: place.name,
+                            position: place.geometry.location
+                        }));
+
+                        if (place.geometry.viewport) {
+                            // Only geocodes have viewport.
+                            bounds.union(place.geometry.viewport);
+                        } else {
+                            bounds.extend(place.geometry.location);
+                        }
+                    });
+                    map.fitBounds(bounds);
+                });
+                // [END region_getplaces]
+            }
+
+
+        </script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAZlWdebU9QttRZmX78yDKVDU7QzXx7ZpE&libraries=places&callback=initAutocomplete"
+                async defer></script>
+      </div>
+    </div>
     <%= f.input :num_scopes, label: 'Number of telescopes > 6 inches: ' %>
     <%= f.input :max_attendees, label: 'Number of attendees you can accomodate: ' %>
     <h4>Ringmaster Pledge:</h4>
