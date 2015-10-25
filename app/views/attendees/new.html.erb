@@ -117,12 +117,14 @@
               position: {lat: place.latitude, lng: place.longitude}
             });
             var info = new google.maps.InfoWindow({
-              content: place.name
+              content: place.address
             });
             infoWindows.push(info);
             marker.addListener('click', function () {
               closeWindows();
               info.open(map, marker);
+              $('#attendee_address').val(place.address);
+              $('#attendee_organizer_id').val(place.id);
             })
             markers.push(marker);
           });
