@@ -168,7 +168,7 @@
       <div class="form-group string required disabled attendee_address_display"><label class="string required disabled col-sm-3 control-label" for="attendee_address_display"><abbr title="required">*</abbr> Address of Viewing Party</label><div class="col-sm-9"><input class="string required disabled form-control" disabled="disabled" required="required" aria-required="true" type="text" name="attendee[address_display]" id="attendee_address_display" /></div></div>
         <%= f.input :address, :as => :hidden  %>
         <%= f.input :organizer_id, :as => :hidden  %>
-        <%= f.button :submit, value: 'RSVP!' %>
+        <%= f.button :submit, value: 'Save my Spot', class: 'btn btn-primary'  %>
     <% end %>
   </div>
 
