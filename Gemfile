@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+ruby '2.2.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.4'
@@ -31,8 +32,8 @@ gem 'simple_form'
 gem 'country_select'
 
 #database
-gem 'pg',             '0.17.1'
-gem 'activerecord-postgis-adapter', '3.0.0'
+# gem 'pg',             '0.17.1'
+# gem 'activerecord-postgis-adapter', '3.0.0'
 gem "active_model_serializers", '0.10.0.rc3'
 
 group :development, :test do
