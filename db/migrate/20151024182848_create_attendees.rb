@@ -3,7 +3,7 @@ class CreateAttendees < ActiveRecord::Migration
     create_table :attendees do |t|
       t.string :name
       t.string :email
-      t.string :zipcode
+      t.string :address
 
       t.belongs_to :organizer, index: true
       t.timestamps null: false

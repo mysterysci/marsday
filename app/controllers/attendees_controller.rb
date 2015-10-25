@@ -1,11 +1,20 @@
 class AttendeesController < ApplicationController
   def new
+    @attendee = Attendee.new
   end
 
   def index
   end
 
   def create
+    @attendee = Attendee.new(attendee_params)
+    if @attendee.save
+      flash[:success] = "Thanks for signing up!"
+      redirect_to root_path
+    else
+      # handle unsuccessful save
+      render 'new'
+    end
   end
 
   def edit
@@ -18,5 +27,10 @@ class AttendeesController < ApplicationController
   end
 
   def destroy
+  end
+
+  private
+  def attendee_params
+    params.require(:attendee).permit(:name, :email, :address, :organizer_id)
   end
 end

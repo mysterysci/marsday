@@ -11,7 +11,7 @@
 </div>
 
 <div id="row" style="height:450px">
-  <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+  <input id="pac-input" class="controls" type="text" placeholder="Enter your address and press return">
   <div id="map"></div>
   <script type="text/javascript">
 
@@ -104,8 +104,8 @@
 </div>
 
 <div class="row marketing">
-  <div class="col-lg-6">
-    <h4>Location</h4>
+  <div class="col-lg-5">
+    <h4>Selected Location</h4>
     <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
 
     <h4>Details</h4>
@@ -115,15 +115,21 @@
     <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
   </div>
 
-  <div class="col-lg-6">
+  <div class="col-lg-7">
     <h4>RSVP</h4>
-    <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
 
-    <h4>Subheading</h4>
-    <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
-
-    <h4>Subheading</h4>
-    <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+    <%= simple_form_for @attendee, html: { class: 'form-horizontal' },
+                        wrapper: :horizontal_form,
+                        wrapper_mappings: {
+                                check_boxes: :horizontal_radio_and_checkboxes,
+                                radio_buttons: :horizontal_radio_and_checkboxes,
+                                file: :horizontal_file_input,
+                                boolean: :horizontal_boolean
+                        } do |f| %>
+        <%= f.input :name, label: 'Your name: ', error: 'Name is mandatory, please fill it in' %>
+        <%= f.input :email, label: 'Your email: ', placeholder: 'user@domain.com' %>
+        <%= f.button :submit, value: 'RSVP!' %>
+    <% end %>
   </div>
 </div>
 
