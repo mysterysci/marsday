@@ -124,6 +124,10 @@
               $('#attendee_organizer_id').val(place.id);
               $('#selected_name').html(place.name);
               $('#selected_address').html(place.address);
+              if ($('#rsvp-row').is(":hidden")) $('#rsvp-row').show();
+              $('html, body').animate({
+                scrollTop: $("#rsvp-row").offset().top
+              }, 2000);
             })
             markers.push(marker);
           });
@@ -138,7 +142,7 @@
   </script>
 </div>
 
-<div class="row marketing">
+<div class="row marketing" id="rsvp-row">
   <div class="col-lg-5">
     <h4>Selected Location</h4>
     <div id="selected_name"></div>
