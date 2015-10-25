@@ -68,6 +68,13 @@ GEM
       sort_alphabetical (~> 1.0)
     currencies (0.4.2)
     debug_inspector (0.0.2)
+    devise (3.5.2)
+      bcrypt (~> 3.0)
+      orm_adapter (~> 0.1)
+      railties (>= 3.2.6, < 5)
+      responders
+      thread_safe (~> 0.1)
+      warden (~> 1.2.3)
     erubis (2.7.0)
     execjs (2.6.0)
     ffi (1.9.10)
@@ -133,6 +140,7 @@ GEM
     notiffany (0.0.8)
       nenv (~> 0.1)
       shellany (~> 0.0)
+    orm_adapter (0.5.0)
     pg (0.17.1)
     pry (0.10.3)
       coderay (~> 1.1.0)
@@ -195,6 +203,8 @@ GEM
       ffi (>= 0.5.0)
     rdoc (4.2.0)
     remotipart (1.2.1)
+    responders (2.1.0)
+      railties (>= 4.2.0, < 5)
     rgeo (0.4.0)
     rgeo-activerecord (4.0.0)
       activerecord (~> 4.2)
@@ -236,6 +246,8 @@ GEM
       execjs (>= 0.3.0)
       json (>= 1.8.0)
     unicode_utils (1.4.0)
+    warden (1.2.3)
+      rack (>= 1.0)
     web-console (2.2.1)
       activemodel (>= 4.0)
       binding_of_caller (>= 0.7.2)
@@ -253,6 +265,7 @@ DEPENDENCIES
   byebug
   coffee-rails (~> 4.1.0)
   country_select
+  devise
   guard-minitest (= 2.3.1)
   jbuilder (~> 2.0)
   jquery-rails

@@ -34,6 +34,10 @@ gem 'country_select'
 # admin
 gem 'rails_admin'
 
+# authentication
+
+gem 'devise'
+
 #database
 gem 'pg',             '0.17.1'
 gem 'activerecord-postgis-adapter', '3.0.0'
