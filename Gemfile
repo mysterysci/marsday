@@ -32,8 +32,8 @@ gem 'simple_form'
 gem 'country_select'
 
 #database
-# gem 'pg',             '0.17.1'
-# gem 'activerecord-postgis-adapter', '3.0.0'
+gem 'pg',             '0.17.1'
+gem 'activerecord-postgis-adapter', '3.0.0'
 gem "active_model_serializers", '0.10.0.rc3'
 
 group :development, :test do
