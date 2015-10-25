@@ -121,6 +121,7 @@
               closeWindows();
               info.open(map, marker);
               $('#attendee_address').val(place.address);
+              $('#attendee_address_display').val(place.address);
               $('#attendee_organizer_id').val(place.id);
               $('#selected_name').html(place.name);
               $('#selected_address').html(place.address);
@@ -162,7 +163,8 @@
                         } do |f| %>
         <%= f.input :name, label: 'Your name: ', error: 'Name is mandatory, please fill it in' %>
         <%= f.input :email, label: 'Your email: ', placeholder: 'user@domain.com' %>
-        <%= f.input :address, label: 'Address of Viewing Party', disabled:true %>
+      <div class="form-group string required disabled attendee_address_display"><label class="string required disabled col-sm-3 control-label" for="attendee_address_display"><abbr title="required">*</abbr> Address of Viewing Party</label><div class="col-sm-9"><input class="string required disabled form-control" disabled="disabled" required="required" aria-required="true" type="text" name="attendee[address_display]" id="attendee_address_display" /></div></div>
+        <%= f.input :address, :as => :hidden  %>
         <%= f.input :organizer_id, :as => :hidden  %>
         <%= f.button :submit, value: 'RSVP!' %>
     <% end %>
