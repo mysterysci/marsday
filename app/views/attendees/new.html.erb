@@ -143,6 +143,8 @@
                         } do |f| %>
         <%= f.input :name, label: 'Your name: ', error: 'Name is mandatory, please fill it in' %>
         <%= f.input :email, label: 'Your email: ', placeholder: 'user@domain.com' %>
+        <%= f.input :address, label: 'Address of Viewing Party', disabled:true %>
+        <%= f.input :organizer_id, :as => :hidden  %>
         <%= f.button :submit, value: 'RSVP!' %>
     <% end %>
   </div>
