@@ -11,6 +11,7 @@ class OrganizersController < ApplicationController
 
   def create
     @organizer = Organizer.new(organizer_params)
+    @organizer.num_attendees = 0 # default number of attendees
     if @organizer.save
       flash[:success] = "Thanks for signing up!"
       redirect_to root_path

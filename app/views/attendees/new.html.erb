@@ -7,7 +7,7 @@
   <p class="lead">Be one of them</p>
 </div>
 
-<div class="row"><h4>Find a Saturn Viewing Party near you.</h4>
+<div class="row"><h4>Choose a Saturn Viewing Party near you.</h4>
 </div>
 
 <div id="row" style="height:450px">
@@ -125,6 +125,8 @@
               info.open(map, marker);
               $('#attendee_address').val(place.address);
               $('#attendee_organizer_id').val(place.id);
+              $('#selected_name').html(place.name);
+              $('#selected_address').html(place.address);
             })
             markers.push(marker);
           });
@@ -142,13 +144,8 @@
 <div class="row marketing">
   <div class="col-lg-5">
     <h4>Selected Location</h4>
-    <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
-
-    <h4>Details</h4>
-    <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
-
-    <h4>Remaining Spots</h4>
-    <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+    <div id="selected_name"></div>
+    <div id="selected_address"></div>
   </div>
 
   <div class="col-lg-7">
