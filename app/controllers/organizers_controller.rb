@@ -5,7 +5,7 @@ class OrganizersController < ApplicationController
 
   def index
     if params.has_key? :ne_latitude then
-      render json: Organizer.in_box(params[:ne_latitude], params[:ne_longitude], params[:sw_latitude], params[:sw_longitude])
+      render json: Organizer.attendable().in_box(params[:ne_latitude], params[:ne_longitude], params[:sw_latitude], params[:sw_longitude])
     end
   end
 
