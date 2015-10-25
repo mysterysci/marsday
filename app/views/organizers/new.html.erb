@@ -16,6 +16,7 @@
     <%= f.input :secondary_name, label: 'Do you have a co-organizer? If so please enter their name: ' %>
     <%= f.input :secondary_name, label: 'Co-organizer email (if applicable): ' %>
     <%= f.input :address, :as => :hidden  %>
+    <%= f.input :location, :as => :hidden  %>
     <div class="form-group ">
       <label class="col-sm-3 control-label">Add the address for the viewing party in the box to the right:</label>
       <div class="col-sm-9">
@@ -54,13 +55,14 @@
                         return;
                     }
 
-                    $('#organizer_address').html($('#pac-input').val());
-
                     // Clear out the old markers.
                     markers.forEach(function(marker) {
                         marker.setMap(null);
                     });
                     markers = [];
+
+                    $('#organizer_address').val($('#pac-input').val()); // set address in form
+                    $('#organizer_location').val('POINT('+ places[0].geometry.location.lng()+' '+places[0].geometry.location.lat()+')'); // set location
 
                     // For each place, get the icon, name and location.
                     var bounds = new google.maps.LatLngBounds();
