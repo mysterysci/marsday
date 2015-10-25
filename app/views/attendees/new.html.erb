@@ -1,146 +1,148 @@
+<div class="hero">
 
-<section id="video">
+  <div class="nav">
+    <%= link_to image_tag('logo-color.png', class: 'logo'), root_url %>
+    <a href="#" class="btn btn-primary">Sign Up</a>
+  </div>
 
-  <div class= "row">
-    <div class="col-md-3 col-sm-1 col-xs-12"></div>
-    <div class="col-md-6 col-sm-8 col-xs-12">
+  <div class="pitch">
+    On Saturday, September 24, 2016 millions of people around the world will look
+    through a telescope and see the rings of Saturn for the first time.
 
-      <video class="element-spacing img-responsive" width="640" height="480" controls>
-        <source src="movie.mp4" type="video/mp4">
-          <source src="movie.ogg" type="video/ogg">
-          </video>
-
-        </div>
-        <div class="col-md-3 col-sm-1 col-xs-12"></div>
-      </div>
+    <div class="pitch-you">
+      Be one of them.
     </div>
+  </div>
 
-  </section>
+  <iframe width="420" height="315" src="https://www.youtube.com/embed/_fK8Ohyx75A?modestbranding=1&autohide=1&showinfo=0&controls=0" frameborder="0" allowfullscreen></iframe>
 
-<div class="jumbotron">
-  <p class="lead">The evening of Saturday, September 24, millions of people around the world will look through a telescope and see the rings of Saturn for the first time.</p>
-  <p class="lead">Be one of them</p>
+  <div class="call-to-action">
+    <a href="#" class="btn btn-primary">Sign Up</a>
+  </div>
+
 </div>
 
-<div class="row"><h4>Choose a Saturn Viewing Party near you.</h4>
-</div>
 
-<div id="row" style="height:450px">
-  <input id="pac-input" class="controls" type="text" placeholder="Enter your address and press return">
-  <div id="map"></div>
-  <script type="text/javascript">
+<div class="container-fluid signup">
 
-    var map;
-    function initMap() {
-      map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: 54.5260, lng: -105.2551},
-          zoom: 2
-      });
-      // Create the search box and link it to the UI element.
-      var input = document.getElementById('pac-input');
-      var searchBox = new google.maps.places.SearchBox(input);
-      map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+  <div class="row search">
+    Choose a Saturn Viewing Party near you.
+  </div>
 
-      map.addListener('bounds_changed', function() {
-        searchBox.setBounds(map.getBounds());
-      });
+  <div id="row" style="height:450px">
+    <input id="pac-input" class="controls" type="text" placeholder="Enter your address and press return">
+    <div id="map"></div>
+    <script type="text/javascript">
 
-      var markers = [], infoWindows = [];
-
-      var clearMarkers = function () {
-        markers.forEach(function(marker) {
-          marker.setMap(null);
+      var map;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: 54.5260, lng: -105.2551},
+            zoom: 2
         });
-        markers = [];
-        infoWindows.forEach(function(info) {
-          info.close();
+        // Create the search box and link it to the UI element.
+        var input = document.getElementById('pac-input');
+        var searchBox = new google.maps.places.SearchBox(input);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+        map.addListener('bounds_changed', function() {
+          searchBox.setBounds(map.getBounds());
         });
-        infoWindows = [];
-      };
 
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-          var pos = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          };
+        var markers = [], infoWindows = [];
 
-          map.setCenter(pos);
-          map.setZoom(12);
-        });
-      }
+        var clearMarkers = function () {
+          markers.forEach(function(marker) {
+            marker.setMap(null);
+          });
+          markers = [];
+          infoWindows.forEach(function(info) {
+            info.close();
+          });
+          infoWindows = [];
+        };
 
-      // Listen for the event fired when the user selects a prediction and retrieve
-      // more details for that place.
-      searchBox.addListener('places_changed', function() {
-        var places = searchBox.getPlaces();
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
 
-        if (places.length === 0) {
-          return;
+            map.setCenter(pos);
+            map.setZoom(12);
+          });
         }
 
-        // For each place, get the icon, name and location.
-        var bounds = new google.maps.LatLngBounds();
-        places.forEach(function(place) {
-          if (place.geometry.viewport) {
-            // Only geocodes have viewport.
-            bounds.union(place.geometry.viewport);
-          } else {
-            bounds.extend(place.geometry.location);
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        searchBox.addListener('places_changed', function() {
+          var places = searchBox.getPlaces();
+
+          if (places.length === 0) {
+            return;
           }
-        });
-        map.fitBounds(bounds);
-      });
 
-      var closeWindows = function () {
-        infoWindows.forEach(function (info) {
-          info.close();
-        });
-      };
-
-      var updateMarkers = _.throttle(function () {
-        var bounds = map.getBounds();
-        var searchParams = {
-          ne_latitude: bounds.getNorthEast().lat(),
-          ne_longitude: bounds.getNorthEast().lng(),
-          sw_latitude: bounds.getSouthWest().lat(),
-          sw_longitude: bounds.getSouthWest().lng()
-        };
-        $.get('/organizers/?' + $.param(searchParams), function (data) {
-          clearMarkers();
-          $.each(data, function (index, place) {
-            var marker = new google.maps.Marker({
-              map: map,
-              position: {lat: place.latitude, lng: place.longitude}
-            });
-            var info = new google.maps.InfoWindow({
-              content: place.address
-            });
-            infoWindows.push(info);
-            marker.addListener('click', function () {
-              closeWindows();
-              info.open(map, marker);
-              $('#attendee_address').val(place.address);
-              $('#attendee_organizer_id').val(place.id);
-              $('#selected_name').html(place.name);
-              $('#selected_address').html(place.address);
-              if ($('#rsvp-row').is(":hidden")) $('#rsvp-row').show();
-              $('html, body').animate({
-                scrollTop: $("#rsvp-row").offset().top
-              }, 2000);
-            })
-            markers.push(marker);
+          // For each place, get the icon, name and location.
+          var bounds = new google.maps.LatLngBounds();
+          places.forEach(function(place) {
+            if (place.geometry.viewport) {
+              // Only geocodes have viewport.
+              bounds.union(place.geometry.viewport);
+            } else {
+              bounds.extend(place.geometry.location);
+            }
           });
+          map.fitBounds(bounds);
         });
-      }, 300);
 
-      map.addListener('bounds_changed', updateMarkers);
-      map.addListener('click', closeWindows);
-    };
+        var closeWindows = function () {
+          infoWindows.forEach(function (info) {
+            info.close();
+          });
+        };
 
+        var updateMarkers = _.throttle(function () {
+          var bounds = map.getBounds();
+          var searchParams = {
+            ne_latitude: bounds.getNorthEast().lat(),
+            ne_longitude: bounds.getNorthEast().lng(),
+            sw_latitude: bounds.getSouthWest().lat(),
+            sw_longitude: bounds.getSouthWest().lng()
+          };
+          $.get('/organizers/?' + $.param(searchParams), function (data) {
+            clearMarkers();
+            $.each(data, function (index, place) {
+              var marker = new google.maps.Marker({
+                map: map,
+                position: {lat: place.latitude, lng: place.longitude}
+              });
+              var info = new google.maps.InfoWindow({
+                content: place.address
+              });
+              infoWindows.push(info);
+              marker.addListener('click', function () {
+                closeWindows();
+                info.open(map, marker);
+                $('#attendee_address').val(place.address);
+                $('#attendee_organizer_id').val(place.id);
+                $('#selected_name').html(place.name);
+                $('#selected_address').html(place.address);
+                if ($('#rsvp-row').is(":hidden")) $('#rsvp-row').show();
+                $('html, body').animate({
+                  scrollTop: $("#rsvp-row").offset().top
+                }, 2000);
+              })
+              markers.push(marker);
+            });
+          });
+        }, 300);
 
-  </script>
-</div>
+        map.addListener('bounds_changed', updateMarkers);
+        map.addListener('click', closeWindows);
+      };
+    </script>
+
 
 <div class="row marketing" id="rsvp-row">
   <div class="col-lg-5">
@@ -149,30 +151,51 @@
     <div id="selected_address"></div>
   </div>
 
-  <div class="col-lg-7">
-    <h4>RSVP</h4>
+    <div class="col-lg-7">
+      <h4>RSVP</h4>
 
-    <%= simple_form_for @attendee, html: { class: 'form-horizontal' },
-                        wrapper: :horizontal_form,
-                        wrapper_mappings: {
-                                check_boxes: :horizontal_radio_and_checkboxes,
-                                radio_buttons: :horizontal_radio_and_checkboxes,
-                                file: :horizontal_file_input,
-                                boolean: :horizontal_boolean
-                        } do |f| %>
-        <%= f.input :name, label: 'Your name: ', error: 'Name is mandatory, please fill it in' %>
-        <%= f.input :email, label: 'Your email: ', placeholder: 'user@domain.com' %>
-        <%= f.input :address, label: 'Address of Viewing Party', disabled:true %>
-        <%= f.input :organizer_id, :as => :hidden  %>
-        <%= f.button :submit, value: 'RSVP!' %>
-    <% end %>
+      <%= simple_form_for @attendee, html: { class: 'form-horizontal' },
+                          wrapper: :horizontal_form,
+                          wrapper_mappings: {
+                                  check_boxes: :horizontal_radio_and_checkboxes,
+                                  radio_buttons: :horizontal_radio_and_checkboxes,
+                                  file: :horizontal_file_input,
+                                  boolean: :horizontal_boolean
+                          } do |f| %>
+          <%= f.input :name, label: 'Your name: ', error: 'Name is mandatory, please fill it in' %>
+          <%= f.input :email, label: 'Your email: ', placeholder: 'user@domain.com' %>
+          <%= f.input :address, label: 'Address of Viewing Party', disabled:true %>
+          <%= f.input :organizer_id, :as => :hidden  %>
+          <%= f.button :submit, value: 'RSVP!' %>
+      <% end %>
+    </div>
   </div>
+
+  <footer class="footer">
+    <p>&copy; Mystery Science 2015</p>
+  </footer>
+
+  <script async defer
+          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAZlWdebU9QttRZmX78yDKVDU7QzXx7ZpE&libraries=places&callback=initMap">
+  </script>
 </div>
 
-<footer class="footer">
-  <p>&copy; Mystery Science 2015</p>
-</footer>
 
-<script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAZlWdebU9QttRZmX78yDKVDU7QzXx7ZpE&libraries=places&callback=initMap">
+<script>
+var $window = $(window),
+    $hero = $('.hero');
+
+$(window).resize(function() {
+  var mobileMaxHeight = 500,
+      desktopMaxHeight = 720,
+      width = $window.width(),
+      height = $window.height();
+
+  if (height > desktopMaxHeight) { height = desktopMaxHeight; }
+  if (width < mobileMaxHeight) { height = mobileMaxHeight; }
+
+  $hero.height(height);
+  $tagline.css('top', ((height - $('.hero').height()) / 2) - ($tagline.height() / 2) + 'px')
+
+}).resize();
 </script>

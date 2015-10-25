@@ -21,3 +21,61 @@
 h5 {
   font-weight: bold;
 }
+
+.hero {
+  display: relative;
+  width: 100%;
+  background: url('/images/backg.jpg');
+  background-size: cover;
+}
+
+.hero .nav {
+  width: 100%;
+  height: 55px;
+  background-color: white;
+  padding: 10px 20px;
+}
+
+.hero .nav a.btn-primary {
+  float: right;
+}
+
+a.btn-primary {
+  background-color: #51aabf;
+  border-color: #51aabf;
+}
+
+.hero img.logo {
+  width: 120px;
+  float: left;
+}
+
+.hero .pitch {
+  width: 80%;
+  margin: 20px auto;
+  font-size: 30px;
+  color: #e8eacf;
+  text-align: center;
+}
+
+.hero .pitch-you {
+  font-weight: bold;
+  font-size: 40px;
+}
+
+.hero iframe {
+  margin: 0 auto;
+  display: block;
+  border: 3px solid #e8eacf;
+}
+
+.hero .call-to-action {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.hero .call-to-action .btn-primary {
+  font-size: 25px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
