@@ -1,5 +1,5 @@
 class OrganizerSerializer < ActiveModel::Serializer
-  attributes :id, :name, :latitude, :longitude
+  attributes :id, :name, :latitude, :longitude, :address
 
   def latitude
     object.location.latitude

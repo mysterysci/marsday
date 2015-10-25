@@ -1,190 +1,159 @@
-<div class="container">
+<div class="header clearfix" style="text-align:center">
+  <img src="images/saturnday_logo_v1.png" />
+</div>
 
-  <div class="header clearfix" style="text-align:center">
-    <img src="images/saturnday_logo_v1.png" />
-  </div>
+<div class="jumbotron">
+  <p class="lead">The evening of Saturday, September 24, millions of people around the world will look through a telescope and see the rings of Saturn for the first time.</p>
+  <p class="lead">Be one of them</p>
+</div>
 
-  <div class="jumbotron">
-    <p class="lead">The evening of Saturday, September 24, millions of people around the world will look through a telescope and see the rings of Saturn for the first time.</p>
-    <p class="lead">Be one of them</p>
-  </div>
+<div class="row"><h4>Choose a Saturn Viewing Party near you.</h4>
+</div>
 
-  <div class="row"><h4>Find a Saturn Viewing Party near you.</h4>
-  </div>
+<div id="row" style="height:450px">
+  <input id="pac-input" class="controls" type="text" placeholder="Enter your address and press return">
+  <div id="map"></div>
+  <script type="text/javascript">
 
-  <div id="row" style="height:450px">
-    <input id="pac-input" class="controls" type="text" placeholder="Search Box">
-    <div id="map"></div>
-    <script type="text/javascript">
+    var map;
+    function initMap() {
+      map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 54.5260, lng: -105.2551},
+          zoom: 2
+      });
+      // Create the search box and link it to the UI element.
+      var input = document.getElementById('pac-input');
+      var searchBox = new google.maps.places.SearchBox(input);
+      map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
-      var map;
-      function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-            center: {lat: 54.5260, lng: -105.2551},
-            zoom: 2
+      map.addListener('bounds_changed', function() {
+        searchBox.setBounds(map.getBounds());
+      });
+
+      var markers = [], infoWindows = [];
+
+      var clearMarkers = function () {
+        markers.forEach(function(marker) {
+          marker.setMap(null);
         });
-        // Create the search box and link it to the UI element.
-        var input = document.getElementById('pac-input');
-        var searchBox = new google.maps.places.SearchBox(input);
-        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
-        map.addListener('bounds_changed', function() {
-          searchBox.setBounds(map.getBounds());
+        markers = [];
+        infoWindows.forEach(function(info) {
+          info.close();
         });
+        infoWindows = [];
+      };
 
-        var markers = [];
-
-        var clearMarkers = function () {
-          markers.forEach(function(marker) {
-            marker.setMap(null);
-          });
-          markers = [];
-        };
-
-        // Listen for the event fired when the user selects a prediction and retrieve
-        // more details for that place.
-        searchBox.addListener('places_changed', function() {
-          var places = searchBox.getPlaces();
-
-          if (places.length == 0) {
-            return;
-          }
-
-          clearMarkers();
-
-          // For each place, get the icon, name and location.
-          var bounds = new google.maps.LatLngBounds();
-          places.forEach(function(place) {
-            var icon = {
-              url: place.icon,
-              size: new google.maps.Size(71, 71),
-              origin: new google.maps.Point(0, 0),
-              anchor: new google.maps.Point(17, 34),
-              scaledSize: new google.maps.Size(25, 25)
-            };
-
-            // Create a marker for each place.
-            markers.push(new google.maps.Marker({
-              map: map,
-              icon: icon,
-              title: place.name,
-              position: place.geometry.location
-            }));
-
-            if (place.geometry.viewport) {
-              // Only geocodes have viewport.
-              bounds.union(place.geometry.viewport);
-            } else {
-              bounds.extend(place.geometry.location);
-            }
-          });
-          map.fitBounds(bounds);
-        });
-
-        map.addListener('bounds_changed', function () {
-          var bounds = map.getBounds();
-          var searchParams = {
-            ne_latitude: bounds.getNorthEast().lat(),
-            ne_longitude: bounds.getNorthEast().lng(),
-            sw_latitude: bounds.getSouthWest().lat(),
-            sw_longitude: bounds.getSouthWest().lng()
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
           };
-          $.get('/organizers/?' + $.param(searchParams), function (data) {
-            clearMarkers();
-            $.each(data, function (index, place) {
-              markers.push(new google.maps.Marker({
-                map: map,
-                position: {lat: place.latitude, lng: place.longitude}
-              }));
-            });
-          });
+
+          map.setCenter(pos);
+          map.setZoom(12);
         });
       }
 
+      // Listen for the event fired when the user selects a prediction and retrieve
+      // more details for that place.
+      searchBox.addListener('places_changed', function() {
+        var places = searchBox.getPlaces();
 
-    </script>
-  </div>
+        if (places.length === 0) {
+          return;
+        }
 
-  <div class="row marketing" style="display: none;">
-    <div class="col-lg-6">
-      <h4>Location</h4>
-      <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+        // For each place, get the icon, name and location.
+        var bounds = new google.maps.LatLngBounds();
+        places.forEach(function(place) {
+          if (place.geometry.viewport) {
+            // Only geocodes have viewport.
+            bounds.union(place.geometry.viewport);
+          } else {
+            bounds.extend(place.geometry.location);
+          }
+        });
+        map.fitBounds(bounds);
+      });
 
-      <h4>Details</h4>
-      <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
+      var closeWindows = function () {
+        infoWindows.forEach(function (info) {
+          info.close();
+        });
+      };
 
-      <h4>Remaining Spots</h4>
-      <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
-    </div>
+      var updateMarkers = _.throttle(function () {
+        var bounds = map.getBounds();
+        var searchParams = {
+          ne_latitude: bounds.getNorthEast().lat(),
+          ne_longitude: bounds.getNorthEast().lng(),
+          sw_latitude: bounds.getSouthWest().lat(),
+          sw_longitude: bounds.getSouthWest().lng()
+        };
+        $.get('/organizers/?' + $.param(searchParams), function (data) {
+          clearMarkers();
+          $.each(data, function (index, place) {
+            var marker = new google.maps.Marker({
+              map: map,
+              position: {lat: place.latitude, lng: place.longitude}
+            });
+            var info = new google.maps.InfoWindow({
+              content: place.address
+            });
+            infoWindows.push(info);
+            marker.addListener('click', function () {
+              closeWindows();
+              info.open(map, marker);
+              $('#attendee_address').val(place.address);
+              $('#attendee_organizer_id').val(place.id);
+              $('#selected_name').html(place.name);
+              $('#selected_address').html(place.address);
+            })
+            markers.push(marker);
+          });
+        });
+      }, 300);
 
-    <div class="col-lg-6">
-      <h4>Form</h4>
-      <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
-    </div>
-  </div>
+      map.addListener('bounds_changed', updateMarkers);
+      map.addListener('click', closeWindows);
+    };
 
-  <div class="row marketing">
-    <div class="col-lg-6">
-      <h4>Panhandle Park</h4>
-      <p>764 Clayton St<br>
-        San Francisco, CA 94117</p>
 
-      <h5>Details</h5>
-      <p>We'll have a dozen or more large telescopes set up. We can handle about 50 attendees. Bring hot chocolate!</p>
-
-      <table>
-        <tr>
-          <td style="width: 80px;"><b>Capacity:</b></td>
-          <td>50</td>
-        </tr>
-        <tr>
-          <td><b>Spots left:</b></td>
-          <td>27</td>
-        </tr>
-      </table>
-
-    </div>
-
-    <div class="col-lg-6">
-      <h4>RSVP to Save Your Spot</h4>
-
-      <table>
-        <tr>
-          <td style="width: 140px;"><b>Name:</b></td>
-          <td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td><b>Email:</b></td>
-          <td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td><b># of people in your group:</b></td>
-          <td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td><b>T-shirt #1 size:</b></td>
-          <td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td><b>T-shirt #2 size:</b></td>
-          <td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td><b>T-shirt #3 size:</b></td>
-          <td>&nbsp;</td>
-        </tr>
-
-      </table>
-
-    </div>
-  </div>
-
-  <footer class="footer">
-    <p>&copy; Mystery Science 2015</p>
-  </footer>
-
-  <script async defer
-          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAZlWdebU9QttRZmX78yDKVDU7QzXx7ZpE&libraries=places&callback=initMap">
   </script>
+</div>
 
-</div> <!-- container -->
+<div class="row marketing">
+  <div class="col-lg-5">
+    <h4>Selected Location</h4>
+    <div id="selected_name"></div>
+    <div id="selected_address"></div>
+  </div>
+
+  <div class="col-lg-7">
+    <h4>RSVP</h4>
+
+    <%= simple_form_for @attendee, html: { class: 'form-horizontal' },
+                        wrapper: :horizontal_form,
+                        wrapper_mappings: {
+                                check_boxes: :horizontal_radio_and_checkboxes,
+                                radio_buttons: :horizontal_radio_and_checkboxes,
+                                file: :horizontal_file_input,
+                                boolean: :horizontal_boolean
+                        } do |f| %>
+        <%= f.input :name, label: 'Your name: ', error: 'Name is mandatory, please fill it in' %>
+        <%= f.input :email, label: 'Your email: ', placeholder: 'user@domain.com' %>
+        <%= f.input :address, label: 'Address of Viewing Party', disabled:true %>
+        <%= f.input :organizer_id, :as => :hidden  %>
+        <%= f.button :submit, value: 'RSVP!' %>
+    <% end %>
+  </div>
+</div>
+
+<footer class="footer">
+  <p>&copy; Mystery Science 2015</p>
+</footer>
+
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAZlWdebU9QttRZmX78yDKVDU7QzXx7ZpE&libraries=places&callback=initMap">
+</script>
