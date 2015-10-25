@@ -30,13 +30,17 @@
         searchBox.setBounds(map.getBounds());
       });
 
-      var markers = [];
+      var markers = [], infoWindows = [];
 
       var clearMarkers = function () {
         markers.forEach(function(marker) {
           marker.setMap(null);
         });
         markers = [];
+        infoWindows.forEach(function(info) {
+          info.close();
+        });
+        infoWindows = [];
       };
 
       if (navigator.geolocation) {
@@ -91,6 +95,11 @@
         map.fitBounds(bounds);
       });
 
+      var closeWindows = function () {
+        infoWindows.forEach(function (info) {
+          info.close();
+        });
+      };
 
       var updateMarkers = _.throttle(function () {
         var bounds = map.getBounds();
@@ -103,15 +112,25 @@
         $.get('/organizers/?' + $.param(searchParams), function (data) {
           clearMarkers();
           $.each(data, function (index, place) {
-            markers.push(new google.maps.Marker({
+            var marker = new google.maps.Marker({
               map: map,
               position: {lat: place.latitude, lng: place.longitude}
-            }));
+            });
+            var info = new google.maps.InfoWindow({
+              content: place.name
+            });
+            infoWindows.push(info);
+            marker.addListener('click', function () {
+              closeWindows();
+              info.open(map, marker);
+            })
+            markers.push(marker);
           });
         });
       }, 300);
 
       map.addListener('bounds_changed', updateMarkers);
+      map.addListener('click', closeWindows);
     };
 
 
