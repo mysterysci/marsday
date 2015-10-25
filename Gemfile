@@ -36,7 +36,7 @@ gem 'pg',             '0.17.1'
 gem 'activerecord-postgis-adapter', '3.0.0'
 gem "active_model_serializers", '0.10.0.rc3'
 
-group :development, :test do
+group :development, :test, :production do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
   # Access an IRB console on exception pages or by using <%= console %> in views
@@ -55,4 +55,3 @@ group :production do
   gem 'rails_12factor', '0.0.2'
   gem 'puma',           '~> 2.11.1'
 end
-

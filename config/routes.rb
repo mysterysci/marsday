@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :organizers
 
   get '/ringmasters' => 'organizers#new', as: 'new_organizers_page'
+  get '/press' => 'pages#press', as: 'press_page'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
