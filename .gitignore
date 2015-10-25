@@ -18,3 +18,9 @@
 
 #ignore rubymine
 /.idea
+
+# ignore precompiled assets
+/public/assets
+
+logfile
+

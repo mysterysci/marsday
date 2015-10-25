@@ -1,31 +1,5 @@
 Rails.application.routes.draw do
-  get 'organizers/new'
-
-  get 'organizers/index'
-
-  get 'organizers/create'
-
-  get 'organizers/edit'
-
-  get 'organizers/show'
-
-  get 'organizers/update'
-
-  get 'organizers/destroy'
-
-  get 'attendees/new'
-
-  get 'attendees/index'
-
-  get 'attendees/create'
-
-  get 'attendees/edit'
-
-  get 'attendees/show'
-
-  get 'attendees/update'
-
-  get 'attendees/destroy'
+  get 'organizers/search'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
@@ -34,6 +8,8 @@ Rails.application.routes.draw do
   root 'attendees#new'
   resources :attendees
   resources :organizers
+
+  get '/ringmasters' => 'organizers#new', as: 'new_organizers_page'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
