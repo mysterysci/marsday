@@ -4,6 +4,7 @@ class OrganizersController < ApplicationController
   end
 
   def index
+    logger.error RGeo
     if params.has_key? :ne_latitude then
       return render json: Organizer.attendable().in_box(params[:ne_latitude], params[:ne_longitude], params[:sw_latitude], params[:sw_longitude])
     end
