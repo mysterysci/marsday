@@ -31,6 +31,9 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'simple_form'
 gem 'country_select'
 
+# admin
+gem 'rails_admin'
+
 #database
 gem 'pg',             '0.17.1'
 gem 'activerecord-postgis-adapter', '3.0.0'
