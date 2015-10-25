@@ -10,6 +10,7 @@ class OrganizersController < ApplicationController
   end
 
   def create
+    @page_title = 'Ring Masters - Register a viewing party'
     @organizer = Organizer.new(organizer_params)
     if @organizer.save
       flash[:success] = "Thanks for signing up!"

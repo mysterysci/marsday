@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   resources :attendees
   resources :organizers
 
+  get '/ringmasters' => 'organizers#new', as: 'new_organizers_page'
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
