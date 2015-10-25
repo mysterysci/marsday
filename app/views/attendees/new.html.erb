@@ -39,6 +39,18 @@
         markers = [];
       };
 
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+
+          map.setCenter(pos);
+          map.setZoom(12);
+        });
+      }
+
       // Listen for the event fired when the user selects a prediction and retrieve
       // more details for that place.
       searchBox.addListener('places_changed', function() {
@@ -79,7 +91,8 @@
         map.fitBounds(bounds);
       });
 
-      map.addListener('bounds_changed', function () {
+
+      var updateMarkers = _.throttle(function () {
         var bounds = map.getBounds();
         var searchParams = {
           ne_latitude: bounds.getNorthEast().lat(),
@@ -96,8 +109,10 @@
             }));
           });
         });
-      });
-    }
+      }, 300);
+
+      map.addListener('bounds_changed', updateMarkers);
+    };
 
 
   </script>
