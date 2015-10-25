@@ -5,6 +5,23 @@ body{
 
 /*NAVIGATION*/
 
+.navbar-brand{
+  color:black;
+  font-size: 20px;
+}
+
+.element-spacing{
+  margin-top: 40px;
+}
+
+a.nav-list{
+  color:black;
+}
+
+.navbar-nav:hover{
+  color:gray;
+}
+
 .navbar-toggle{
  background-color:gray;
 }
@@ -17,4 +34,12 @@ background-color:white;
 
 .quote{
 
+}
+
+#location-title {
+  text-align: center;
+}
+
+#location{
+  margin-top: 60px;
 }
