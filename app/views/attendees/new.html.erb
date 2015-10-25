@@ -79,7 +79,8 @@
         map.fitBounds(bounds);
       });
 
-      map.addListener('bounds_changed', function () {
+
+      var updateMarkers = _.throttle(function () {
         var bounds = map.getBounds();
         var searchParams = {
           ne_latitude: bounds.getNorthEast().lat(),
@@ -96,7 +97,9 @@
             }));
           });
         });
-      });
+      }, 300);
+
+      map.addListener('bounds_changed', updateMarkers);
     }
 
 
