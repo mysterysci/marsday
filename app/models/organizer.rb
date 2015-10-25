@@ -22,4 +22,8 @@ class Organizer < ActiveRecord::Base
         organizers.location
     } % [sw_longitude, sw_latitude, ne_longitude, ne_latitude])
   }
+
+  scope :attendable, -> () {
+    where('num_attendees < max_attendees')
+  }
 end
