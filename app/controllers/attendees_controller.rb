@@ -8,7 +8,7 @@ class AttendeesController < ApplicationController
 
   def create
     @attendee = Attendee.new(attendee_params)
-    @attendee.organizer.num_attendees = @attendee.organizer.num_attendees + 1
+    @attendee.organizer.num_attendees += 1
     if @attendee.save && @attendee.organizer.save
       flash[:success] = "Thanks for signing up!"
       redirect_to root_path
