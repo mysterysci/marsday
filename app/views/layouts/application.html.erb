@@ -17,18 +17,30 @@
   <![endif]-->
 </head>
 
-<!-- <nav class="navbar navbar-default">
+<nav class="navbar navbar-default">
   <div class="container-fluid">
 
     <div class="navbar-header">
       <%= link_to image_tag('logo.png'), root_url, class: 'navbar-brand' %>
     </div>
-  </div>
-</nav> -->
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+      <ul class="nav navbar-nav navbar-right">
+        <li><%= link_to "Press", press_page_path %></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
 
 <% flash.each do |message_type, message| %>
     <div class="alert alert-<%= message_type %>"><%= message %></div>
 <% end %>
+
+<%= Organizer.last.location %>
+<% console %>
 
   <%= yield %>
 
