@@ -26,6 +26,15 @@ Source for the [Mars Day](http://marsday.org) site.
 
 ### 3. Setup Database
 
+* brew upgrade postgresql
+* initdb /usr/local/var/postgres9.4 -E utf8
+* brew install postgis
+* pg_ctl -D /usr/local/var/postgres9.4 -l logfile start
+* createdb marsday
+* psql marsday -c "create extension postgis;"
+* createuser --superuser marsday
+* rake db:create
+
 * Start Postgres: `postgres -D /usr/local/var/postgres`.
 * `bundle exec rake db:setup`. If you're not familiar, this command will create
   the development and test databases, load the schema (in our case
