@@ -1,4 +1,150 @@
-== README
+# Mars Day
+
+Source for the [Mars Day](http://marsday.org) site.
+
+## Development Environment Setup
+
+### 1. Get the Code
+
+* `git clone git@github.com:marsday/marsday.git`
+* `cd marsday`
+
+### 2. Install Prerequisites
+
+* Install [Homebrew](http://brew.sh/).
+* Update formulas: `$ brew update`.
+* Install PostgreSQL: `$ brew install postgresql`.
+* Install [rbenv](https://github.com/sstephenson/rbenv): `brew install rbenv ruby-build`.
+  Alternatively, you can use [RVM](http://rvm.io/), but these instructions assume rbenv.
+* Install the required version of Ruby listed in `.ruby-version`: `rbenv install`.
+  If it's not available, you may need to update ruby-build first:
+  `cd ~/.rbenv/plugins/ruby-build && git pull`.
+* Make sure rubygems is on the latest version: `gem update --system`.
+* Install Bundler: `gem install bundler`.
+* Install project gems: `bundle install --path vendor`. If `bundle` command
+  isn't recognized you may have to `rbenv rehash`.
+
+### 3. Setup Database
+
+* Start Postgres: `postgres -D /usr/local/var/postgres`.
+* `bundle exec rake db:setup`. If you're not familiar, this command will create
+  the development and test databases, load the schema (in our case
+  `db/structure.sql`), and seed the database. Seeding the database actually goes
+  to production, grabs non-user-related tables, and pulls them down. It also
+  copies any admin users. You may consider signing up in production and becoming
+  an admin before doing this step.
+* If you absolutely have to work with production data open the `db/seeds.rb` file
+  and comment out the bit about excluded tables. Note: pulling a complete production
+  dump will take a very long time. You may consider pulling [exporting a backup][1]
+  instead.
+
+### 4. Start a Local Server
+
+You can (and should) run the website using [Foreman](http://ddollar.github.io/foreman/):
+
+``` bash
+$ bundle exec foreman start -f Procfile.dev
+$ open http://localhost:3000
+```
+
+Alternatively, you can simply run `bundle exec rails server` or `bin/rails server`. The later uses
+[Spring](https://github.com/rails/spring) to preload the app so the server boots up faster.
+
+### 5. Ship It
+
+Set up your remotes for the Heroku environments:
+
+* `git remote add prod git@heroku.com:marsday.git`
+
+Your output of `git remote -v` should look something like this:
+
+```
+origin     git@github.com:marsday/marsday.git (fetch)
+prod       git@heroku.com:marsday.git (fetch)
+```
+
+With this set up you can now run commands against Heroku. See `heroku help` for a list of commands.
+For example, if you wanted to tail production logs, `heroku logs --tail -r prod`. Specifying
+a remote with the `-r` flag is an alternative to specifying the app (e.g., `-a marsday`).
+
+#### Production Deployment & Continuous Integration
+
+Our continuous integration service, [CircleCI](http://circleci.com) performs our production
+deployments. When you push to GitHub (`origin/master`) a build will be triggered on Circle.
+If the build passes, Circle will push the code to our production app on Heroku—the equivalent of
+`git push prod master`. Circle will also automatically run migrations and restart the dynos.
+
+You can monitor the status of builds on Circle from their web interface. As long as you have access
+to `marsday/marsday` on GitHub, you'll have access to the builds too.
+
+#### Pull Requests & Staging
+
+Most of your work should be done in a branch. When your branch is done, push it to `origin` and
+create a pull request (PR) to master. Circle will build your branch to ensure the tests pass. GitHub
+does a nice job of letting you know if the tests pass for a particular PR. When the PR is ready,
+simply click "Merge pull request." Circle will detect that master has been updated, run the tests
+again, and then deploy to production.
+
+Use our staging environment to publish your branch for others to see: `git push staging
+your-branch:master`. This is not automated.
+
+Important notes about staging that you probably wouldn't expect:
+
+* **Staging uses the same database as production.** If you have to run migrations for your feature-
+  branch, make sure they won't break production. In practice, this is very manageable.
+* Staging's `Rails.env` is "production." If you need to key off the environment, use
+  `request.subdomain == 'staging'` instead of `Rails.env.staging?`.
+* Staging is usually "off." This means there are no dynos running and the maintenance page
+  is on. When the maintenance page is on, staging.marsdayence.com will redirect to
+  marsdayence.com.
+
+Sometimes the code on staging will be ahead of your code (maybe you cut your branch a long time ago
+and haven't updated form master in a while). No big deal—feel free to force push a deployment to
+staging by adding the `-f` flag to your push. Just communicate with your fellow developers to make
+sure they don't have something on staging that they're testing. Also, why is your branch not up-to-
+date with master?
+
+## Style
+
+TL;DR
+
+* Use single quotes (') wherever possbile.
+* Don't let lines run on for ever. Wrap them around 100 characters.
+* Every file should have one extra line break at the end and lines shouldn't have extra trailing
+  whitespace.
+
+Please follow [GitHub's Ruby Styleguide](https://github.com/styleguide/ruby) except keep lines
+under 100 characters (not 80). There is no standard on how to document code but we think that if
+code requires a comment it can probably be rewritten to be more obvious.
+
+## Profiling
+
+We use `ruby-prof` along with `flamegraph.pl` to do local performance profiling.  Start by creating
+a local clone of [FlameGraph](https://github.com/brendangregg/FlameGraph) to gain access to its
+`flamegraph.pl` script. Then, capture the code you want to profile like so:
+
+```ruby
+    require 'ruby-prof'
+
+    RubyProf.start
+    # code you want to profile
+    result = RubyProf.stop
+    printer = RubyProf::FlameGraphPrinter.new(result)
+    File.open './perf.log', 'w' do |file|
+      printer.print(file)
+    end
+```
+
+This will produce a `perf.log` file in your current directory. This has the raw profiling data which
+can be converted into a flame graph using the following command:
+
+    flamegraph.pl --countname=ms --width=2048 < perf.log > perf.svg
+
+Open up the SVG in a web browser, and you're all set!
+
+[1]: https://devcenter.heroku.com/articles/heroku-postgres-import-export
+
+
 
 PM:
 
