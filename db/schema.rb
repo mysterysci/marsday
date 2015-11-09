@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151025022033) do
+ActiveRecord::Schema.define(version: 20151109064729) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,18 +29,17 @@ ActiveRecord::Schema.define(version: 20151025022033) do
   add_index "attendees", ["organizer_id"], name: "index_attendees_on_organizer_id", using: :btree
 
   create_table "organizers", force: :cascade do |t|
-    t.string    "name"
-    t.string    "email"
-    t.string    "club_name"
-    t.string    "secondary_name"
-    t.string    "secondary_email"
-    t.string    "address"
-    t.integer   "num_scopes"
-    t.integer   "max_attendees"
-    t.integer   "num_attendees"
-    t.datetime  "created_at",                                                               null: false
-    t.datetime  "updated_at",                                                               null: false
-    t.geography "location",        limit: {:srid=>4326, :type=>"point", :geographic=>true}
+    t.string   "name"
+    t.string   "email"
+    t.string   "club_name"
+    t.string   "secondary_name"
+    t.string   "secondary_email"
+    t.string   "address"
+    t.integer  "num_scopes"
+    t.integer  "max_attendees"
+    t.integer  "num_attendees"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
 end
