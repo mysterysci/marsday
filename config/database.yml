@@ -5,8 +5,8 @@
 #   gem 'sqlite3'
 #
 default: &default
-  database:           saturnday
-  username:           saturnday
+  database:           marsday
+  username:           marsday
   adapter:            postgis
   host:               localhost
   schema_search_path: public
@@ -19,7 +19,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: test_saturnday
+  database: test_marsday
 
 production:
   <<: *default
