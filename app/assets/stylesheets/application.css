@@ -14,6 +14,14 @@
  *= require_self
 */
 
+body {
+  background-color: rgb(216,126,43) !important;
+}
+
+.hidden {
+  display: none;
+}
+
 .navbar .navbar-brand img {
  height: 30px;
 }
@@ -22,11 +30,23 @@ h5 {
   font-weight: bold;
 }
 
-.hero {
-  display: relative;
-  width: 100%;
+.cover {
   background: url('/images/backg.jpg');
   background-size: cover;
+  width: 100%;
+}
+
+.cover .text {
+  max-width: 400px;
+  width: 70%;
+  margin: 200px auto 0 auto;
+  display: block;
+}
+
+.hero {
+  width: 100%;
+  border: 0px solid transparent;
+  border-bottom: 1px solid rgb(216,126,43);
 }
 
 .hero .nav {
@@ -48,27 +68,6 @@ h5 {
 .hero img.logo {
   width: 120px;
   float: left;
-}
-
-.hero .pitch {
-  width: 80%;
-  margin: 20px auto;
-  font-size: 30px;
-  color: #e8eacf;
-  text-align: center;
-}
-
-.hero .pitch-you {
-  font-weight: bold;
-  font-size: 40px;
-}
-
-.hero iframe,
-.hero #wistia_embed {
-  margin: 0 auto;
-  width: 620px;
-  display: block;
-  border: 3px solid #e8eacf;
 }
 
 .hero .call-to-action {
