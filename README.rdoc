@@ -68,7 +68,7 @@ Set up your remotes for the Heroku environments:
 Your output of `git remote -v` should look something like this:
 
 ```
-origin     git@github.com:marsday/marsday.git (fetch)
+origin     git@github.com:mysterysci/marsday.git (fetch)
 prod       git@heroku.com:marsday.git (fetch)
 ```
 
