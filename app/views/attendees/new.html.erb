@@ -2,6 +2,9 @@
   <div style="width: 100%; height: 1px;"></div>
   <%= image_tag('text.png', class: 'text') %>
 </div>
+<div style="margin-top: 20px;">
+  <iframe src="http://marsday.wikispaces.com/Overview" scrolling="no" style="width: 100%; height: 800px; border: 0; margin: 0; padding: 0; overflow: hidden;"></iframe>
+</div>
 
 <script>
 var $window = $(window),
@@ -11,7 +14,7 @@ $(window).resize(function() {
   var mobileMaxHeight = 500,
       desktopMaxHeight = 720,
       width = $window.width(),
-      height = $window.height();
+      height = $window.height() - 50;
 
   if (height > desktopMaxHeight) { height = desktopMaxHeight; }
   if (width < mobileMaxHeight) { height = mobileMaxHeight; }
